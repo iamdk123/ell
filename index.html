@@ -1,0 +1,494 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>L.K. — cerita kecil kita</title>
+    <style>
+      :root {
+        --p: #e84f8d;
+        --d: #9e245b;
+        --ink: #301b27;
+        --muted: #805866;
+        --bg: #fffdfc;
+        --soft: #fff0f6;
+        --line: #f2cada;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: system-ui, sans-serif;
+      }
+      body:before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        opacity: 0.35;
+        background: radial-gradient(#ffd5e5 2px, transparent 3px);
+        background-size: 45px 45px;
+      }
+      .wrap {
+        max-width: 1100px;
+        margin: auto;
+        padding: 18px 20px 70px;
+      }
+      .top {
+        display: flex;
+        justify-content: space-between;
+        color: var(--muted);
+        font-size: 11px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+      .logo {
+        color: var(--p);
+        font-weight: 900;
+      }
+      .hero {
+        min-height: 90svh;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 35px;
+        align-items: center;
+      }
+      .tag {
+        font-size: 11px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--p);
+        font-weight: 900;
+      }
+      .hero h1 {
+        font:
+          500 clamp(4rem, 10vw, 8.5rem)/0.84 Georgia,
+          serif;
+        letter-spacing: -0.08em;
+        margin: 18px 0 25px;
+      }
+      .hero h1 i {
+        color: var(--p);
+      }
+      p {
+        color: var(--muted);
+        line-height: 1.8;
+      }
+      .pill,
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 48px;
+        border-radius: 99px;
+        padding: 0 22px;
+        font-weight: 800;
+        text-decoration: none;
+        border: 0;
+        cursor: pointer;
+      }
+      .pill,
+      .yes {
+        background: var(--d);
+        color: #fff;
+        box-shadow: 0 12px 28px #9e245b35;
+      }
+      .portrait {
+        display: grid;
+        place-items: center;
+        min-height: 510px;
+      }
+      .frame {
+        width: min(90%, 390px);
+        height: 490px;
+        transform: rotate(4deg);
+        border: 12px solid white;
+        outline: 1px solid var(--line);
+        box-shadow: 0 22px 70px #9e245b1c;
+        overflow: hidden;
+        position: relative;
+        background: linear-gradient(145deg, #ffdbea, #fff5f9);
+      }
+      .photo-placeholder,
+      .empty {
+        height: 100%;
+        display: grid;
+        place-items: center;
+        text-align: center;
+        padding: 22px;
+        color: var(--muted);
+        font:
+          1.2rem Georgia,
+          serif;
+      }
+      .stamp {
+        position: absolute;
+        bottom: 20px;
+        left: -12px;
+        background: var(--d);
+        color: white;
+        padding: 10px 16px;
+        font-size: 10px;
+        font-weight: 900;
+        transform: rotate(-8deg);
+      }
+      section {
+        max-width: 1000px;
+        margin: 0 auto 110px;
+      }
+      .intro {
+        text-align: center;
+        max-width: 630px;
+        margin: auto auto 42px;
+      }
+      .intro h2 {
+        font:
+          500 clamp(2.5rem, 6vw, 5rem)/0.95 Georgia,
+          serif;
+        margin: 12px 0;
+      }
+      .memory {
+        display: grid;
+        grid-template-columns: 1fr 1.4fr;
+        gap: 60px;
+      }
+      .memory-copy {
+        position: sticky;
+        top: 30px;
+      }
+      .date {
+        font:
+          500 clamp(4rem, 9vw, 8rem)/0.8 Georgia,
+          serif;
+        color: var(--p);
+        letter-spacing: -0.08em;
+      }
+      .date small {
+        font-size: 0.3em;
+        letter-spacing: 0;
+      }
+      .gallery {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+      .shot {
+        min-height: 230px;
+        border-radius: 18px;
+        overflow: hidden;
+        background: var(--soft);
+        border: 1px solid var(--line);
+      }
+      .shot:nth-child(2) {
+        margin-top: 45px;
+      }
+      .shot:nth-child(3) {
+        margin-top: -20px;
+      }
+      .shot img {
+        width: 100%;
+        height: 100%;
+        min-height: 230px;
+        object-fit: cover;
+      }
+      .empty {
+        min-height: 230px;
+      }
+      .empty small {
+        display: block;
+        font: 11px system-ui;
+        color: var(--p);
+        margin-top: 8px;
+      }
+      .timeline {
+        border-left: 1px solid var(--line);
+        max-width: 700px;
+        margin: auto;
+      }
+      .event {
+        padding: 0 0 38px 35px;
+        position: relative;
+      }
+      .event:before {
+        content: "♡";
+        position: absolute;
+        left: -12px;
+        background: var(--bg);
+        color: var(--p);
+        font-size: 20px;
+      }
+      .event b {
+        color: var(--p);
+        font-size: 11px;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+      }
+      .event h3 {
+        font:
+          500 1.8rem Georgia,
+          serif;
+        margin: 8px 0;
+      }
+      .letter {
+        background: var(--soft);
+        border: 1px solid var(--line);
+        border-radius: 30px;
+        padding: clamp(28px, 6vw, 70px);
+        text-align: center;
+      }
+      .letter h2 {
+        font:
+          500 clamp(2.6rem, 7vw, 5rem)/0.95 Georgia,
+          serif;
+        margin: 12px;
+      }
+      .letter p {
+        max-width: 600px;
+        margin: 18px auto;
+      }
+      .actions {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .maybe {
+        background: white;
+        color: var(--d);
+        border: 1px solid var(--line);
+      }
+      #answer {
+        min-height: 28px;
+        margin-top: 15px;
+        color: var(--d);
+        font-weight: 800;
+      }
+      .foot {
+        text-align: center;
+        color: var(--muted);
+        font-size: 12px;
+      }
+      @media (max-width: 720px) {
+        .wrap {
+          padding-inline: 16px;
+        }
+        .top span:last-child {
+          display: none;
+        }
+        .hero {
+          grid-template-columns: 1fr;
+          min-height: auto;
+          padding: 70px 0 90px;
+        }
+        .hero h1 {
+          font-size: clamp(4rem, 20vw, 6rem);
+        }
+        .portrait {
+          min-height: 410px;
+        }
+        .frame {
+          width: 280px;
+          height: 380px;
+        }
+        .memory {
+          grid-template-columns: 1fr;
+          gap: 30px;
+        }
+        .memory-copy {
+          position: static;
+        }
+        .gallery {
+          gap: 10px;
+        }
+        .shot,
+        .shot img,
+        .empty {
+          min-height: 185px;
+        }
+        .shot:nth-child(2) {
+          margin-top: 25px;
+        }
+        .shot:nth-child(3) {
+          margin-top: -12px;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          scroll-behavior: auto !important;
+          animation: none !important;
+        }
+      }
+      /* luxury editorial finish */
+      body {
+        background: #fffafc;
+        background-image: radial-gradient(circle at 15% 10%, #ffd9e8 0, transparent 25%), radial-gradient(circle at 90% 70%, #ffe7f0 0, transparent 28%);
+      }
+      .wrap { max-width: 1180px; }
+      .top { padding: 10px 14px; border-bottom: 1px solid #f3dce5; }
+      .hero { max-width: 1100px; min-height: 94svh; }
+      .hero h1 { text-shadow: 0 12px 35px #9e245b18; }
+      .hero p { font-size: 1.08rem; max-width: 480px; }
+      .portrait { filter: drop-shadow(0 25px 35px #9e245b18); }
+      .frame { border-width: 15px; border-radius: 4px; box-shadow: 0 28px 70px #9e245b25, 0 0 0 8px #ffffffaa; }
+      .stamp { letter-spacing: .16em; }
+      .intro h2, .letter h2, .event h3, .memory-copy h3 { letter-spacing: -.035em; }
+      .shot { border-radius: 8px; box-shadow: 0 18px 40px #9e245b18; transition: transform .35s ease, box-shadow .35s ease; }
+      .shot:hover { transform: translateY(-6px) rotate(-1deg); box-shadow: 0 25px 50px #9e245b28; }
+      .shot:nth-child(2):hover { transform: translateY(-6px) rotate(1deg); }
+      .letter { box-shadow: 0 24px 70px #9e245b18; }
+      .pill, .btn { letter-spacing: .01em; }
+      .pill:hover, .yes:hover { background: #7f1646; transform: translateY(-2px); }
+      .pill, .btn, .shot { transition-duration: .25s; }
+      @media (max-width: 720px) {
+        .hero { padding-top: 52px; }
+        .top { padding-inline: 4px; }
+        .frame { box-shadow: 0 20px 45px #9e245b25, 0 0 0 5px #ffffffaa; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <nav class="top">
+        <span class="logo">♡ L.K.</span><span>06 oktober · sebuah cerita</span>
+      </nav>
+      <header class="hero">
+        <div>
+          <div class="tag">untuk adek, dari mas</div>
+          <h1>Lailatul<br /><i>Kamariah</i></h1>
+          <p>
+            Beberapa foto, satu tanggal, dan banyak alasan kecil kenapa mas
+            senang pernah bertemu adek.
+          </p>
+          <a class="pill" href="#kenangan">Lihat cerita kita ↓</a>
+        </div>
+        <div class="portrait">
+          <div class="frame">
+            <div class="photo-placeholder">
+              <img
+                src="foto-cover.jpg"
+                alt="Foto favorit bersama"
+                style="width: 100%; height: 100%; object-fit: cover"
+                onerror="this.remove()"
+              />Taruh foto favorit kalian<br /><small>foto-cover.jpg</small>
+            </div>
+            <div class="stamp">KM02. 16-10</div>
+          </div>
+        </div>
+      </header>
+      <section id="kenangan">
+        <div class="intro">
+          <div class="tag">album kecil kita</div>
+          <h2>Bukan cuma foto.<br />Ini potongan cerita.</h2>
+          <p>
+            Masukkan foto kalian ke folder website dengan nama yang tertera di
+            bawah.
+          </p>
+        </div>
+        <div class="memory">
+          <div class="memory-copy">
+            <div class="date">06<br /><small>Oktober</small></div>
+            <h3>Hari pertama kita bertemu.</h3>
+            <p>
+              Mungkin bagi orang lain ini hanya tanggal biasa. Tapi buat mas,
+              tanggal ini punya tempat kecil yang spesial—karena di hari itu mas
+              bertemu adek.
+            </p>
+          </div>
+          <div class="gallery">
+            <figure class="shot">
+              <div class="empty">
+                Foto pertama<br /><small>foto-1.jpg</small>
+              </div>
+            </figure>
+            <figure class="shot">
+              <div class="empty">
+                Momen favorit<br /><small>foto-2.jpg</small>
+              </div>
+            </figure>
+            <figure class="shot">
+              <div class="empty">
+                Senyum adek<br /><small>foto-3.jpg</small>
+              </div>
+            </figure>
+            <figure class="shot">
+              <div class="empty">
+                Cerita berikutnya<br /><small>foto-4.jpg</small>
+              </div>
+            </figure>
+          </div>
+        </div>
+      </section>
+      <section>
+        <div class="intro">
+          <div class="tag">little timeline</div>
+          <h2>Yang mas ingat dari adek</h2>
+        </div>
+        <div class="timeline">
+          <div class="event">
+            <b>06 Oktober</b>
+            <h3>Awal yang tidak direncanakan</h3>
+            <p>
+              Satu pertemuan yang membuat mas ingin mengenal adek lebih jauh.
+            </p>
+          </div>
+          <div class="event">
+            <b>Setelah hari itu</b>
+            <h3>Obrolan kecil jadi ditunggu</h3>
+            <p>
+              Adek memanggil mas “mas”, dan panggilan sederhana itu selalu
+              menyenangkan.
+            </p>
+          </div>
+          <div class="event">
+            <b>Hari ini</b>
+            <h3>Masih ada banyak cerita</h3>
+            <p>Semoga album kecil ini terus punya halaman baru, pelan-pelan.</p>
+          </div>
+        </div>
+      </section>
+      <section class="letter">
+        <div class="tag">surat yang tidak masuk chat</div>
+        <h2>Hai, adek.</h2>
+        <p>
+          Kalau warna pink punya arti buat adek, maka buat mas, pink selalu
+          mengingatkan pada sesuatu yang hangat dan bikin tersenyum—seperti
+          adek.
+        </p>
+        <p>
+          Terima kasih sudah menjadi bagian dari cerita kecil ini. Mas ingin
+          terus mengenal adek dengan cara yang baik.
+        </p>
+        <div class="actions">
+          <button class="btn yes" id="yes">Mas, lanjutkan ceritanya ♡</button
+          ><button class="btn maybe" id="maybe">Baca sekali lagi</button>
+        </div>
+        <div id="answer" aria-live="polite"></div>
+      </section>
+      <footer class="foot">
+        dibuat khusus untuk Lailatul Kamariah · <span class="logo">♥</span>
+      </footer>
+    </div>
+    <script>
+      document.querySelectorAll(".empty").forEach((e) => {
+        const n = e.querySelector("small").textContent,
+          img = document.createElement("img");
+        img.src = n;
+        img.alt = "Kenangan bersama";
+        img.onload = () => e.replaceWith(img);
+      });
+      const a = document.querySelector("#answer");
+      document.querySelector("#yes").onclick = () => {
+        a.textContent = "Yeay. Mas simpan jawaban adek baik-baik ya. ♡";
+      };
+      document.querySelector("#maybe").onclick = () =>
+        (a.textContent =
+          "Baca pelan-pelan, adek. Mas memang menulisnya untuk adek.");
+    </script>
+  </body>
+</html>
